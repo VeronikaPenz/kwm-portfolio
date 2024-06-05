@@ -1,30 +1,36 @@
-<script setup>
-import HelloWorld from './components/HelloWorld.vue'
-</script>
-
 <template>
-  <div>
-    <a href="https://vitejs.dev" target="_blank">
-      <img src="/vite.svg" class="logo" alt="Vite logo" />
-    </a>
-    <a href="https://vuejs.org/" target="_blank">
-      <img src="./assets/vue.svg" class="logo vue" alt="Vue logo" />
-    </a>
-  </div>
-  <HelloWorld msg="Vite + Vue" />
+  <Suspense>
+    <template #default>
+      <Slug/>
+    </template>
+
+    <template #fallback>
+      <div>Loading...</div>
+    </template>
+  </Suspense>
 </template>
 
-<style scoped>
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
+<script lang="ts">
+import Slug from "@/pages/Slug.vue";
+import {SbBlokData, useStoryblok} from "@storyblok/vue";
+import {onMounted, provide, ref} from "vue";
+
+interface Global extends SbBlokData {
+  backLabel: string
+  contactHeading: string
+  copyright: string
+  email: string
 }
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
+
+export default {
+  name: "App",
+  components: {Slug},
+  setup() {
+    const global = ref<Global | undefined>();
+    provide('global', global);
+    onMounted(async () => {
+      global.value = (await useStoryblok('global', {version: 'draft'})).value.content;
+    })
+  }
 }
-.logo.vue:hover {
-  filter: drop-shadow(0 0 2em #42b883aa);
-}
-</style>
+</script>
