@@ -1,7 +1,7 @@
 <template>
   <router-link v-editable="blok" :to="'/'+blok.link.cached_url"
                class="project-teaser group relative flex flex-col gap-2 items-center">
-    <div class="project-teaser-image block w-24 md:w-32 h-24 md:h-32">
+    <div class="project-teaser-image block w-28 md:w-32 h-28 md:h-32">
       <img :src="blok.image.filename" :alt="blok.image.alt"
            class="project-teaser-image group-hover:scale-110 grayscale group-hover:grayscale-0">
     </div>
