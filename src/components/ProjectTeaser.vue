@@ -1,8 +1,12 @@
 <template>
-  <router-link v-editable="blok" :to="'/'+blok.link.cached_url" class="project-teaser">
-    <span class="project-teaser-title">{{ blok.title }}</span>
+  <router-link v-editable="blok" :to="'/'+blok.link.cached_url"
+               class="project-teaser group relative flex flex-col gap-2 items-center">
+    <div class="project-teaser-image block w-24 md:w-32 h-24 md:h-32">
+      <img :src="blok.image.filename" :alt="blok.image.alt"
+           class="project-teaser-image group-hover:scale-110 grayscale group-hover:grayscale-0">
+    </div>
+    <span class="project-teaser-title opacity-0 translate-y-[-1em]">{{ blok.title }}</span>
     <!--<span class="project-teaser-subtitle">{{ blok.subtitle }}</span>-->
-    <img :src="blok.image.filename" :alt="blok.image.alt" class="project-teaser-image">
   </router-link>
 </template>
 
@@ -29,3 +33,27 @@ export default {
   }
 }
 </script>
+
+<style lang="scss" scoped>
+
+.project-teaser {
+  .project-teaser-image, img, .project-teaser-title {
+    transition: all 0.5s ease;
+  }
+
+  .project-teaser-image {
+    clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
+    transition: all 0.5s ease;
+  }
+
+  &:hover {
+    .project-teaser-title {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    .project-teaser-image {
+      clip-path: polygon(0 100%, 0 0, 100% 0, 100% 100%);
+    }
+  }
+}
+</style>

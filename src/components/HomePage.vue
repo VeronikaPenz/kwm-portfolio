@@ -1,5 +1,5 @@
 <template>
-  <div v-editable="blok" class="home-page">
+  <div v-editable="blok" class="home-page flex flex-col gap-24">
     <StoryblokComponent
       v-for="b in blok.body" :key="b._uid"
       :blok="b"
