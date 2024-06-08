@@ -1,27 +1,39 @@
 <template>
-  <div v-editable="blok" class="text-block">
-    <TextParser :text="blok.text"></TextParser>
-  </div>
+    <div v-editable="blok" class="text-block relative" v-html="renderRichText(blok.text)"></div>
 </template>
 
 <script lang="ts">
 import {PropType} from "vue";
-import {RichText} from "@/shared/rich-text.model";
-import TextParser from "@/components/partials/TextParser.vue";
-import {SbBlokData} from "@storyblok/vue";
+import {renderRichText, Richtext, SbBlokData} from "@storyblok/vue";
 
 interface TextBlock extends SbBlokData {
-  text: RichText
+  text: Richtext
 }
 
 export default {
   name: "TextBlock",
-  components: {TextParser},
   props: {
     blok: {
       type: Object as PropType<TextBlock>,
       required: true
     }
+  },
+  setup(){
+    return {
+      renderRichText
+    }
   }
 }
 </script>
+
+<style lang="scss" scoped>
+.text-block:after {
+  content: '';
+  position: absolute;
+  right: 1em;
+  top: 100%;
+  width: 5em;
+  height: 3px;
+  background: #f00;
+}
+</style>

@@ -1,35 +1,38 @@
 <template>
+  <div class="layout-wrapper font-body text-white bg-black flex flex-col pt-8 md:pt-24 max-w-full min-h-screen">
   <Suspense>
     <template #default>
-      <Slug/>
+      <main class="max-w-4xl mx-auto px-4 w-full flex-1 pb-32">
+      <router-view v-slot="{ Component, route }">
+        <Component :is="Component" :key="route.name"/>
+      </router-view>
+      </main>
     </template>
-
     <template #fallback>
-      <div>Loading...</div>
+      <div class="absolute top-0 left-0 w-full h-full flex flex-col gap-2 items-center justify-center">
+        <div class="h-5 w-5 bg-red animate-spin"></div>
+        <span>Loading...</span>
+      </div>
     </template>
   </Suspense>
+    <Footer></Footer>
+  </div>
 </template>
 
 <script lang="ts">
-import Slug from "@/pages/Slug.vue";
-import {SbBlokData, useStoryblok} from "@storyblok/vue";
+import {useStoryblok} from "@storyblok/vue";
 import {onMounted, provide, ref} from "vue";
-
-interface Global extends SbBlokData {
-  backLabel: string
-  contactHeading: string
-  copyright: string
-  email: string
-}
+import {Global} from "@/shared/global.model";
+import Footer from "@/components/partials/Footer.vue";
 
 export default {
   name: "App",
-  components: {Slug},
+  components: {Footer},
   setup() {
     const global = ref<Global | undefined>();
     provide('global', global);
     onMounted(async () => {
-      global.value = (await useStoryblok('global', {version: 'draft'})).value.content;
+      global.value = (await useStoryblok('global', {version: 'draft'})).value.content as any;
     })
   }
 }
