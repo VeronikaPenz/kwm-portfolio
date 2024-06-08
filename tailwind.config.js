@@ -10,7 +10,7 @@ export default {
       'headline': ['Cantarell', 'sans-serif'],
     },
     colors: {
-      'black': '#141414',
+      'black': '#000',
       'darker': '#0b0b0b',
       'red': '#F00',
       'white': '#FFF'
