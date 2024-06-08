@@ -6,6 +6,8 @@ import App from "@/App.vue";
 import router from "@/router";
 import token from "@/storyblok-token.json"
 
+export const mode = import.meta.env.MODE
+
 const app = createApp(App);
 app
   .use(router)
